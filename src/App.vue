@@ -3,18 +3,18 @@
     <header>
       <nav class="warp">
         <ul class="nav_item">
-          <li class="Text_style">HOME</li>
-          <li class="Text_style">动态</li>
-          <li class="Text_style">文章</li>
-          <li class="Text_style">专栏</li>
-          <li class="Text_style">留言</li>
-          <li class="Text_style">关于我</li>
+          <li class="Text_style" @click="$router.push('/')">HOME</li>
+          <li class="Text_style" @click="$router.push('/dynamic')">动态</li>
+          <li class="Text_style" @click="$router.push('/article')">文章</li>
+          <li class="Text_style" @click="$router.push('/special')">专栏</li>
+          <li class="Text_style" @click="$router.push('/message')">留言</li>
+          <li class="Text_style" @click="$router.push('/author')">关于我</li>
         </ul>
         <div class="group">
           <input required="" type="text" class="input" />
           <span class="highlight"></span>
           <span class="bar"></span>
-          <label>keyword</label>
+          <label>请输入内容</label>
         </div>
       </nav>
     </header>
@@ -22,12 +22,31 @@
   </div>
 </template>
 
+<script>
+export default {
+  name: "App",
+  components: {},
+  data() {
+    return {
+      loader: true,
+    };
+  },
+  mounted() {
+    setTimeout(() => (this.loader = false), 3000);
+  },
+};
+</script>
 <style lang="less">
-@textcolor: #f55;
+#app {
+  width: 100%;
+  height: 100%;
+}
+@texthovercolor: #f55;
+@textcolor: #968e8e;
 header {
   width: 100%;
   height: 50px;
-  background-color: #fff;
+  background-color: rgb(33, 33, 33);
   nav {
     height: 100%;
     margin: 0 auto;
@@ -43,23 +62,24 @@ header {
         margin-right: 20px;
         cursor: pointer;
         &:hover {
-          color: @textcolor;
+          color: @texthovercolor;
         }
       }
     }
-    // 输入框
+    // 输入框style
     .group {
       position: relative;
     }
 
     .input {
-      font-size: 16px;
+      font-size: 13px;
       padding: 10px 10px 10px 5px;
       display: block;
       width: 200px;
       border: none;
       border-bottom: 1px solid #515151;
       background: transparent;
+      color: @textcolor;
     }
 
     .input:focus {
@@ -67,7 +87,7 @@ header {
     }
 
     label {
-      color: #4e4e4e;
+      color: @textcolor;
       font-size: 12px;
       font-weight: normal;
       position: absolute;
@@ -83,7 +103,7 @@ header {
     .input:valid ~ label {
       top: -25px;
       font-size: 14px;
-      color: #000;
+      color: @textcolor;
     }
 
     .bar {
@@ -99,7 +119,7 @@ header {
       width: 0;
       bottom: 1px;
       position: absolute;
-      background: #000;
+      background: #968e8e;
       transition: 0.2s ease all;
       -moz-transition: 0.2s ease all;
       -webkit-transition: 0.2s ease all;
@@ -142,6 +162,7 @@ header {
         background: transparent;
       }
     }
+    // 输入框style end
   }
 }
 </style>
