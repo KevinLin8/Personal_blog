@@ -1,29 +1,20 @@
 <template>
   <div class="swiper-container">
     <div class="swiper-wrapper">
-      <div class="swiper-slide">
+      <div class="swiper-slide" @click="Clickonthecarousel">
         <img
-          src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw1%2Fe46eade2-5bca-4a40-8d9e-eb3e5a453918%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&refer=http%3A%2F%2Fsafe-img.xhscdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1688873741&t=cd9262bd94c82610069a4d2d391cfe3d"
+          src="https://pic.616pic.com/bg_w1180/00/19/82/3ODH9QCbTH.jpg"
           alt=""
         />
-      </div>
-      <div class="swiper-slide">
-        <img
-          src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw1%2F5aa16e24-29c1-4051-8c16-fd641778af7f%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&refer=http%3A%2F%2Fsafe-img.xhscdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1688873741&t=562f6c2906fbff29a295195db52abf2e"
-          alt=""
-        />
-      </div>
-      <div class="swiper-slide">
-        <img
-          src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw1%2F7d738ba7-0b2a-423b-b392-5b6ee6a82923%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&refer=http%3A%2F%2Fsafe-img.xhscdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1688873741&t=4d9c4f5c6e4a89b4df246413fd5d151d"
-          alt=""
-        />
-      </div>
-      <div class="swiper-slide">
-        <img
-          src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw1%2F31991ce9-0a3d-4962-b6e9-bff9c6e09b83%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&refer=http%3A%2F%2Fsafe-img.xhscdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1688873741&t=83c4767a49a2d75c6457d036f9dd3d3d"
-          alt=""
-        />
+        <div class="overlay">
+          <h3 class="title">
+            我终于登上了这个榜单！与 Vue 3 和 React 正面
+            PK！和全世界框架同台比武！
+          </h3>
+          <p class="description">
+            前些天我终于把我的框架送上了这个榜单js-framework-benchmark，相信很多人都知道这个榜单，这是目前前端框架衡量性能最受欢迎的跑分榜单，非常开心能够上榜和其他框架一起掰头！
+          </p>
+        </div>
       </div>
     </div>
     <!-- 如果需要分页器 -->
@@ -38,7 +29,7 @@ export default {
   name: "Swiper",
   mounted() {
     new Swiper(".swiper-container", {
-      direction: "vertical", // 垂直切换选项
+      direction: "horizontal", // 垂直切换选项
       loop: true, // 循环模式选项
       // 如果需要分页器
       pagination: {
@@ -49,9 +40,13 @@ export default {
         onlyInViewport: true,
       },
       mousewheel: true,
-      autoplay: true,
       parallax: true,
-      effect: "cube",
+      effect: "cards",
+      autoplay: {
+        delay: 1000,
+        stopOnLastSlide: false,
+        disableOnInteraction: true,
+      },
     });
   },
 
@@ -59,20 +54,62 @@ export default {
   data() {
     return {};
   },
-  methods: {},
+  methods: {
+    Clickonthecarousel() {
+      console.log("点击了图卡");
+    },
+  },
 };
 </script>
 
 <style lang="less">
+@back: #292929;
+@text: #cec6c6;
+@textstyle: "Times New Roman", Times, serif;
 .swiper-container {
   width: 880px;
   height: 300px;
-  //   background-color: rgb(23, 23, 23);
   .swiper-wrapper {
+    width: 100%;
+    height: 100%;
     .swiper-slide {
+      width: 100%;
+      height: 100%;
+      background-color: @back;
+      position: relative;
+      cursor: pointer;
       img {
         width: 100%;
         height: 100%;
+        border: none;
+      }
+      .overlay {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 80px;
+        background-color: rgba(0, 0, 0, 0.5);
+        padding: 10px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        .title {
+          font-weight: 900;
+          font-family: @textstyle;
+          color: #fff;
+        }
+        .description {
+          font-size: 15px;
+          text-overflow: -o-ellipsis-lastline;
+          overflow: hidden; //溢出内容隐藏
+          text-overflow: ellipsis; //文本溢出部分用省略号表示
+          display: -webkit-box; //特别显示模式
+          -webkit-line-clamp: 2; //行数
+          line-clamp: 2;
+          -webkit-box-orient: vertical; //盒子中内容竖直排列
+        }
       }
     }
   }

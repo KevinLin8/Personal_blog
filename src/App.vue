@@ -18,10 +18,29 @@
         </div>
       </nav>
     </header>
+    <vue-particles
+      class="lizi-bg"
+      color="#0cc"
+      :particleOpacity="0.7"
+      :particlesNumber="100"
+      shapeType="star"
+      :particleSize="3"
+      linesColor="#0cc"
+      :linesWidth="1"
+      :lineLinked="true"
+      :lineOpacity="0.4"
+      :linesDistance="150"
+      :moveSpeed="5"
+      :hoverEffect="true"
+      hoverMode="grab"
+      :clickEffect="true"
+      clickMode="push"
+    >
+    </vue-particles>
     <router-view />
   </div>
 </template>
-
+<!-- #39AFFD #8DD1FE-->
 <script>
 export default {
   name: "App",
@@ -37,6 +56,12 @@ export default {
 };
 </script>
 <style lang="less">
+.lizi-bg {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  //   pointer-events: none;
+}
 #app {
   width: 100%;
   height: 100%;
@@ -61,8 +86,11 @@ header {
       li {
         margin-right: 20px;
         cursor: pointer;
+        height: 50px;
+        line-height: 50px;
         &:hover {
-          color: @texthovercolor;
+          color: #0cc;
+          border-bottom: 1px solid #0cc;
         }
       }
     }
