@@ -1,6 +1,6 @@
 <template>
   <div class="title_container">
-    <div class="l">
+    <div class="l" v-if="isRecommendedShow">
       <i class="iconfont icon-weblanmutiao_jingxuantuijian"></i>
       <h3>推荐专栏</h3>
     </div>
@@ -12,7 +12,10 @@
 </template>
 
 <script>
-export default {};
+export default {
+  name: "title",
+  props: ["isRecommendedShow"],
+};
 </script>
 
 <style lang="less" scoped>

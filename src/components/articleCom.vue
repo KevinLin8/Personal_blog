@@ -1,9 +1,13 @@
 <template>
   <div class="article_container">
-    <img
-      src="https://file03.16sucai.com/2017/1100/16sucai_p564c027_0f1.JPG"
-      alt=""
-    />
+    <div class="img_box">
+      <div class="Sliding"></div>
+      <img
+        src="https://file03.16sucai.com/2017/1100/16sucai_p564c027_0f1.JPG"
+        alt=""
+      />
+      <div class="time">2023-05-15</div>
+    </div>
     <div class="content">
       <div class="content_text">
         <h3 class="title">如何应对Chrome 112版本中的getDisplayMedia问题？</h3>
@@ -12,7 +16,7 @@
         </p>
       </div>
       <ul class="related">
-        <li>创建时间:2023-05-15&nbsp;</li>
+        <li>2023-05-15&nbsp;</li>
         /
         <li>&nbsp;<i class="iconfont icon-chakan2"></i>&nbsp;55&nbsp;</li>
         /
@@ -42,10 +46,56 @@ export default {};
   align-items: center;
   position: relative;
   cursor: pointer;
-  img {
-    width: 200px;
-    height: 100%;
+  background: linear-gradient(90deg, #0cc, #0cc);
+  background-position: 0 0;
+  background-size: 1px 1px;
+  background-repeat: no-repeat;
+  transition: all 1s ease;
+  .img_box {
+    padding-left: 5px;
+    position: relative;
+    overflow: hidden;
+    .Sliding {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 0;
+      height: 0;
+      background-color: #0cc;
+      transition: all 0.3s ease;
+    }
+    .time {
+      position: absolute;
+      right: -100px;
+      top: 0;
+      width: 70px;
+      height: 15px;
+      transition: all 0.3s ease;
+      text-align: center;
+      border-radius: 10px;
+      background-color: rgba(0, 204, 204, 0.5);
+      font-size: 12px;
+      line-height: 15px;
+      font-family: "Times New Roman", Times, serif;
+      color: #fff;
+    }
+    img {
+      width: 200px;
+      height: 100%;
+      border: none;
+    }
   }
+  &:hover {
+    .Sliding {
+      height: 20px;
+      width: 1px;
+      border-radius: 1px;
+    }
+    .time {
+      transform: translateX(-100px);
+    }
+  }
+
   .content {
     width: 100%;
     height: 100%;

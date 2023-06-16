@@ -5,6 +5,7 @@
         <div class="icon"></div>
         <p class="title">前端CV攻城狮</p>
         <p class="text">Make a little progress every day</p>
+        <!-- <p class="text">每天进步一点点</p> -->
         <div class="community">
           <el-tooltip
             class="item"

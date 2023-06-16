@@ -1,9 +1,9 @@
 @font-face {
     font-family: "iconfont";
     /* Project id 4113856 */
-    src: url('//at.alicdn.com/t/c/font_4113856_hbidotedzbl.woff2?t=1686639846981') format('woff2'),
-        url('//at.alicdn.com/t/c/font_4113856_hbidotedzbl.woff?t=1686639846981') format('woff'),
-        url('//at.alicdn.com/t/c/font_4113856_hbidotedzbl.ttf?t=1686639846981') format('truetype');
+    src: url('//at.alicdn.com/t/c/font_4113856_i51t8olfozo.woff2?t=1686816689564') format('woff2'),
+        url('//at.alicdn.com/t/c/font_4113856_i51t8olfozo.woff?t=1686816689564') format('woff'),
+        url('//at.alicdn.com/t/c/font_4113856_i51t8olfozo.ttf?t=1686816689564') format('truetype');
 }
 @back: #292929;
 @text: #cec6c6;
@@ -15,6 +15,21 @@
     font-style: normal;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-touxiang_avatar:before {
+    content: "\e622";
+    font-size: 30px;
+}
+
+.icon-dianzan1:before {
+    content: "\ec7f";
+}
+
+.icon-wodedongtai:before {
+    content: "\e64d";
+    color: #0cc;
+    font-size: 20px;
 }
 
 .icon-33kejichuangxin-huojian:before {
@@ -148,4 +163,40 @@ body{
     width: 100%;
     height: 100%;
 }
+.clearfix::after {
+    content: "";
+    display: block;
+    clear: both;
+}
 
+.author {
+    width: 100%;
+    height: 30px;
+    display: flex;
+    background: linear-gradient(90deg, #0cc, #0cc);
+    background-size: 130px 2px;
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    padding-bottom: 10px;
+    .img {
+        img {
+            width: 30px;
+            height: 30;
+            border-radius: 100%;
+        }
+    }
+    .nickname {
+        height: 30px;
+        font-size: 12px;
+        .name {
+            height: 50%;
+            color: #0cc;
+            margin-left: 10px;
+        }
+        .signature {
+            height: 50%;
+            color: #777474;
+            margin-left: 10px;
+        }
+    }
+}

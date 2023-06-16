@@ -3,12 +3,52 @@
     <header>
       <nav class="warp">
         <ul class="nav_item">
-          <li class="Text_style" @click="$router.push('/')">HOME</li>
-          <li class="Text_style" @click="$router.push('/dynamic')">动态</li>
-          <li class="Text_style" @click="$router.push('/article')">文章</li>
-          <li class="Text_style" @click="$router.push('/special')">专栏</li>
-          <li class="Text_style" @click="$router.push('/message')">留言</li>
-          <li class="Text_style" @click="$router.push('/author')">关于我</li>
+          <li
+            :class="$route.path == '/' ? 'active Text_style' : 'Text_style'"
+            @click="$router.push('/')"
+          >
+            HOME
+          </li>
+          <li
+            :class="
+              $route.path == '/dynamic' ? 'active Text_style' : 'Text_style'
+            "
+            @click="$router.push('/dynamic')"
+          >
+            动态
+          </li>
+          <li
+            :class="
+              $route.path == '/article' ? 'active Text_style' : 'Text_style'
+            "
+            @click="$router.push('/article')"
+          >
+            文章
+          </li>
+          <li
+            :class="
+              $route.path == '/special' ? 'active Text_style' : 'Text_style'
+            "
+            @click="$router.push('/special')"
+          >
+            专栏
+          </li>
+          <li
+            :class="
+              $route.path == '/message' ? 'active Text_style' : 'Text_style'
+            "
+            @click="$router.push('/message')"
+          >
+            留言
+          </li>
+          <li
+            :class="
+              $route.path == '/author' ? 'active Text_style' : 'Text_style'
+            "
+            @click="$router.push('/author')"
+          >
+            关于我
+          </li>
         </ul>
         <div class="group">
           <input required="" type="text" class="input" />
@@ -66,7 +106,9 @@ export default {
   width: 100%;
   height: 100%;
 }
-@texthovercolor: #f55;
+.active {
+  color: #0cc !important;
+}
 @textcolor: #968e8e;
 header {
   width: 100%;

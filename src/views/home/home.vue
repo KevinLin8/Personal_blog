@@ -4,9 +4,9 @@
       <!-- 轮播图组件 Swiper-->
       <Swiper />
       <!-- 标题组件  Title-->
-      <Title />
+      <Title :isRecommendedShow="true" />
       <!--专栏组件 Special  -->
-      <Special />
+      <Special :imglist="imglist" />
       <!-- 文章组件 Article -->
       <Article />
       <Article />
@@ -34,6 +34,15 @@ export default {
   name: "home",
   components: { Swiper, Side, Article, Title, Special, backToTop },
   methods: {},
+  data() {
+    return {
+      imglist: [
+        require("../../assets/imges/special_BG1.jpeg"),
+        require("../../assets/imges/special_BG2.jpeg"),
+        require("../../assets/imges/special_BG3.png"),
+      ],
+    };
+  },
 };
 </script>
 
