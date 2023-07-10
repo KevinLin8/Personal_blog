@@ -1,63 +1,19 @@
 <template>
   <div class="swiper-container">
     <div class="swiper-wrapper">
-      <div class="swiper-slide" @click="Clickonthecarousel">
-        <img
-          src="https://t7.baidu.com/it/u=137276411,3145763946&fm=193&f=GIF"
-          alt=""
-        />
+      <div
+        class="swiper-slide"
+        v-for="(item, index) in filteredData"
+        :key="index"
+        @click="Clickonthecarousel"
+      >
+        <img :src="item.imgsrc" alt="" />
         <div class="overlay">
           <h3 class="title">
-            我终于登上了这个榜单！与 Vue 3 和 React 正面
-            PK！和全世界框架同台比武！
+            {{ item.title }}
           </h3>
           <p class="description">
-            前些天我终于把我的框架送上了这个榜单js-framework-benchmark，相信很多人都知道这个榜单，这是目前前端框架衡量性能最受欢迎的跑分榜单，非常开心能够上榜和其他框架一起掰头！
-          </p>
-        </div>
-      </div>
-      <div class="swiper-slide" @click="Clickonthecarousel">
-        <img
-          src="https://t7.baidu.com/it/u=3219378532,1496797738&fm=193&f=GIF"
-          alt=""
-        />
-        <div class="overlay">
-          <h3 class="title">
-            我终于登上了这个榜单！与 Vue 3 和 React 正面
-            PK！和全世界框架同台比武！
-          </h3>
-          <p class="description">
-            前些天我终于把我的框架送上了这个榜单js-framework-benchmark，相信很多人都知道这个榜单，这是目前前端框架衡量性能最受欢迎的跑分榜单，非常开心能够上榜和其他框架一起掰头！
-          </p>
-        </div>
-      </div>
-      <div class="swiper-slide" @click="Clickonthecarousel">
-        <img
-          src="https://t7.baidu.com/it/u=3244359879,3836150088&fm=193&f=GIF"
-          alt=""
-        />
-        <div class="overlay">
-          <h3 class="title">
-            我终于登上了这个榜单！与 Vue 3 和 React 正面
-            PK！和全世界框架同台比武！
-          </h3>
-          <p class="description">
-            前些天我终于把我的框架送上了这个榜单js-framework-benchmark，相信很多人都知道这个榜单，这是目前前端框架衡量性能最受欢迎的跑分榜单，非常开心能够上榜和其他框架一起掰头！
-          </p>
-        </div>
-      </div>
-      <div class="swiper-slide" @click="Clickonthecarousel">
-        <img
-          src="https://t7.baidu.com/it/u=2368366579,3286138528&fm=193&f=GIF"
-          alt=""
-        />
-        <div class="overlay">
-          <h3 class="title">
-            我终于登上了这个榜单！与 Vue 3 和 React 正面
-            PK！和全世界框架同台比武！
-          </h3>
-          <p class="description">
-            前些天我终于把我的框架送上了这个榜单js-framework-benchmark，相信很多人都知道这个榜单，这是目前前端框架衡量性能最受欢迎的跑分榜单，非常开心能够上榜和其他框架一起掰头！
+            {{ item.description }}
           </p>
         </div>
       </div>
@@ -72,39 +28,70 @@ import Swiper from "swiper";
 import "swiper/css/swiper.min.css";
 export default {
   name: "Swiper",
-  mounted() {
-    new Swiper(".swiper-container", {
-      direction: "horizontal", // 垂直切换选项
-      loop: true, // 循环模式选项
-      // 如果需要分页器
-      pagination: {
-        el: ".swiper-pagination",
-      },
-      keyboard: {
-        enabled: true,
-        onlyInViewport: true,
-      },
-      mousewheel: true,
-      parallax: true,
-      effect: "fade",
-      fadeEffect: {
-        crossFade: true,
-      },
-      autoplay: {
-        delay: 1000,
-        stopOnLastSlide: false,
-        disableOnInteraction: true,
-      },
-    });
-  },
+  async mounted() {
+    await this.filterArticleListData(this.ArticleList);
+    await this.addImgsrcAttributeToData();
+    this.SwiperConfig();
 
+    console.log(this.filteredData);
+  },
+  props: ["ArticleList"],
   components: {},
   data() {
-    return {};
+    return {
+      filteredData: [],
+      imgList: [
+        "https://t7.baidu.com/it/u=137276411,3145763946&fm=193&f=GIF",
+        "https://t7.baidu.com/it/u=3219378532,1496797738&fm=193&f=GIF",
+        "https://t7.baidu.com/it/u=3244359879,3836150088&fm=193&f=GIF",
+        "https://t7.baidu.com/it/u=2368366579,3286138528&fm=193&f=GIF",
+      ],
+    };
   },
   methods: {
     Clickonthecarousel() {
       console.log("点击了图卡");
+    },
+    // swiper配置
+    SwiperConfig() {
+      new Swiper(".swiper-container", {
+        direction: "horizontal", // 垂直切换选项
+        loop: true, // 循环模式选项
+        // 如果需要分页器
+        pagination: {
+          el: ".swiper-pagination",
+        },
+        keyboard: {
+          enabled: true,
+          onlyInViewport: true,
+        },
+        mousewheel: true,
+        parallax: true,
+        effect: "fade",
+        fadeEffect: {
+          crossFade: true,
+        },
+        autoplay: {
+          delay: 1000,
+          stopOnLastSlide: false,
+          disableOnInteraction: true,
+        },
+      });
+    },
+    // 过滤4条数据
+    filterArticleListData(data) {
+      if (Array.isArray(data)) {
+        this.filteredData = data.filter((item, index) => index < 4);
+      }
+    },
+    //新增imgsrc属性
+    addImgsrcAttributeToData() {
+      this.filteredData = this.filteredData.map((item, index) => {
+        return {
+          ...item,
+          imgsrc: this.imgList[index],
+        };
+      });
     },
   },
 };

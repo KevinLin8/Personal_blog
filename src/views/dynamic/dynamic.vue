@@ -7,83 +7,27 @@
           <img src="../../assets/imges/avatar.jpg" alt="" />
         </div>
         <div class="nickname">
-          <p class="name">cv攻城狮</p>
+          <p class="name">程序猿林萧</p>
           <p class="signature">每天进步一点点..</p>
         </div>
       </div>
-      <div class="dynamic_content">
+      <div
+        class="dynamic_content"
+        v-for="(item, index) in DynamicDataList"
+        :key="index"
+      >
         <div class="create_time">
           <i class="iconfont icon-wodedongtai icon"></i
-          ><span>2023年04月18日 07:24</span>
+          ><span>{{ item.create_time }}</span>
         </div>
         <div class="content_box">
           <div class="content_card">
-            <h4 class="say">今天天气真好，美好的一天开始了。。</h4>
+            <h4 class="say">{{ item.description }}</h4>
             <div class="img_container clearfix">
               <img
-                src="https://pic1.zhimg.com/v2-3b4fc7e3a1195a081d0259246c38debc_720w.jpg?source=172ae18b"
-                alt=""
-              />
-              <img
-                src="https://pic1.zhimg.com/v2-3b4fc7e3a1195a081d0259246c38debc_720w.jpg?source=172ae18b"
-                alt=""
-              />
-              <img
-                src="https://pic1.zhimg.com/v2-3b4fc7e3a1195a081d0259246c38debc_720w.jpg?source=172ae18b"
-                alt=""
-              />
-              <img
-                src="https://pic1.zhimg.com/v2-3b4fc7e3a1195a081d0259246c38debc_720w.jpg?source=172ae18b"
-                alt=""
-              />
-              <img
-                src="https://pic1.zhimg.com/v2-3b4fc7e3a1195a081d0259246c38debc_720w.jpg?source=172ae18b"
-                alt=""
-              />
-              <img
-                src="https://pic1.zhimg.com/v2-3b4fc7e3a1195a081d0259246c38debc_720w.jpg?source=172ae18b"
-                alt=""
-              />
-            </div>
-            <div class="like">
-              <i class="iconfont icon-dianzan1"></i><span>12</span>
-              <i style="margin-left: 5px" class="iconfont icon-pinglun"></i
-              ><span>12</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="dynamic_content">
-        <div class="create_time">
-          <i class="iconfont icon-wodedongtai icon"></i
-          ><span>2023年04月18日 07:24</span>
-        </div>
-        <div class="content_box">
-          <div class="content_card">
-            <h4 class="say">今天天气真好，美好的一天开始了。。</h4>
-            <div class="img_container clearfix">
-              <img
-                src="https://pic1.zhimg.com/v2-3b4fc7e3a1195a081d0259246c38debc_720w.jpg?source=172ae18b"
-                alt=""
-              />
-              <img
-                src="https://pic1.zhimg.com/v2-3b4fc7e3a1195a081d0259246c38debc_720w.jpg?source=172ae18b"
-                alt=""
-              />
-              <img
-                src="https://pic1.zhimg.com/v2-3b4fc7e3a1195a081d0259246c38debc_720w.jpg?source=172ae18b"
-                alt=""
-              />
-              <img
-                src="https://pic1.zhimg.com/v2-3b4fc7e3a1195a081d0259246c38debc_720w.jpg?source=172ae18b"
-                alt=""
-              />
-              <img
-                src="https://pic1.zhimg.com/v2-3b4fc7e3a1195a081d0259246c38debc_720w.jpg?source=172ae18b"
-                alt=""
-              />
-              <img
-                src="https://pic1.zhimg.com/v2-3b4fc7e3a1195a081d0259246c38debc_720w.jpg?source=172ae18b"
+                v-for="(img, idx) in item.imgArrayField"
+                :key="idx"
+                :src="img"
                 alt=""
               />
             </div>
@@ -103,10 +47,20 @@
 
 <script>
 import Side from "../../components/sideCom.vue";
+import { GetAllUpdates } from "../../api/request";
 export default {
   name: "dynamic",
   components: {
     Side,
+  },
+  data() {
+    return {
+      DynamicDataList: [],
+    };
+  },
+  async created() {
+    let result = await GetAllUpdates();
+    this.DynamicDataList = result.data;
   },
 };
 </script>
@@ -116,13 +70,13 @@ export default {
 @text: #cec6c6;
 @textstyle: "Times New Roman", Times, serif;
 #dynamic {
-  height: auto;
   display: flex;
   justify-content: space-between;
   .content {
     width: 880px;
     height: 100%;
     margin: 10px;
+
     .title {
       font-size: 20px;
       color: rgb(255, 255, 236);

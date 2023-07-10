@@ -22,12 +22,6 @@ const routes = [
       import(/* webpackChunkName: "about" */ "../views/article/article.vue"),
   },
   {
-    path: "/article",
-    name: "article",
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/article/article.vue"),
-  },
-  {
     path: "/special",
     name: "special",
     component: () =>
@@ -45,11 +39,17 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/author/author.vue"),
   },
+  {
+    path: "/detail/:id",
+    name: "detail",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/detail/detail.vue"),
+  },
 ];
 
 const router = new VueRouter({
-  mode: "history",
-  base: process.env.BASE_URL,
+  //   mode: "history",
+  mode: "hash",
   routes,
 });
 

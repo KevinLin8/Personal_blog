@@ -3,9 +3,8 @@
     <div class="author_info Fillet_corner">
       <div class="card">
         <div class="icon"></div>
-        <p class="title">前端CV攻城狮</p>
+        <p class="title">程序猿林萧</p>
         <p class="text">Make a little progress every day</p>
-        <!-- <p class="text">每天进步一点点</p> -->
         <div class="community">
           <el-tooltip
             class="item"
@@ -67,43 +66,14 @@
       <img class="face ANIMATIONS" src="../assets/imges/vx2.jpg" alt="" />
       <img class="back ANIMATIONS" src="../assets/imges/vx.jpg" alt="" />
     </div>
+    <slot name="nav"></slot>
     <div class="message Fillet_corner">
       <h3 class="title">
         <i class="iconfont icon-remen"></i>&nbsp;<strong>最新文章</strong>
       </h3>
       <ul class="article_container">
-        <li class="item">
-          <span class="text">使用Rollup构建npm库</span
-          ><i class="iconfont icon-lianjie icon"></i>
-        </li>
-        <li class="item">
-          <span class="text">实现自动化构建与部署</span
-          ><i class="iconfont icon-lianjie icon"></i>
-        </li>
-        <li class="item">
-          <span class="text">实现字符串的排列算法</span
-          ><i class="iconfont icon-lianjie icon"></i>
-        </li>
-        <li class="item">
-          <span class="text">js的一些小技巧😊😊</span
-          ><i class="iconfont icon-lianjie icon"></i>
-        </li>
-        <li class="item">
-          <span class="text">js的一些小技巧😊😊</span
-          ><i class="iconfont icon-lianjie icon"></i>
-        </li>
-        <li class="item">
-          <span class="text">js的一些小技巧😊😊</span
-          ><i class="iconfont icon-lianjie icon"></i>
-        </li>
-        <li class="item">
-          <span class="text"
-            >GPT-4 炸裂成那样，前端真的还有机会吗？我是这么看的~</span
-          ><i class="iconfont icon-lianjie icon"></i>
-        </li>
-        <li class="item">
-          <span class="text"
-            >GPT-4 炸裂成那样，前端真的还有机会吗？我是这么看的~</span
+        <li class="item" v-for="(item, index) in GetArticleList" :key="index">
+          <span class="text">{{ item.title }}</span
           ><i class="iconfont icon-lianjie icon"></i>
         </li>
       </ul>
@@ -112,7 +82,15 @@
 </template>
 
 <script>
-export default {};
+export default {
+  name: "side",
+  mounted() {},
+  computed: {
+    GetArticleList: function () {
+      return this.$store.getters.get_ArticleList;
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>
@@ -126,6 +104,7 @@ export default {};
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
   .Fillet_corner {
     border-radius: 10px;
   }

@@ -1,23 +1,23 @@
 <template>
   <div id="special" class="warp">
     <main class="content">
-      <Title :isRecommendedShow="false" />
+      <Titlecom :isRecommendedShow="false" righttitle="全部专栏" />
       <Special :imglist="allimglist" />
     </main>
     <!-- 侧边栏组件 Side-->
-    <Side />
+    <Side :IsWechatCodeShow="true" />
   </div>
 </template>
 
 <script>
 import Side from "../../components/sideCom.vue";
-import Title from "../../components/titleCom.vue";
+import Titlecom from "../../components/titleCom.vue";
 import Special from "../../components/specialCom.vue";
 export default {
   name: "special",
   components: {
     Side,
-    Title,
+    Titlecom,
     Special,
   },
   data() {
@@ -49,7 +49,6 @@ export default {
 
 <style lang="less" scoped>
 #special {
-  height: auto;
   display: flex;
   justify-content: space-between;
   background-color: rgba(0, 0, 0, 0.8);

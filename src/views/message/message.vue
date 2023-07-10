@@ -6,7 +6,7 @@
         <img src="../../assets/imges/avatar.jpg" alt="" />
       </div>
       <div class="nickname">
-        <p class="name">cv攻城狮</p>
+        <p class="name">程序猿林萧</p>
         <p class="signature">
           {{ time.hours + ":" + time.minutes + ":" + time.seconds }}
         </p>
@@ -171,22 +171,32 @@
             type="text"
             name="text"
             class="input"
-            placeholder="请输入昵称"
+            placeholder="请输入您希望展示的名称"
           />
         </div>
         <div class="content">
           <span>留言:&numsp;</span>
-          <textarea class="textarea" placeholder="请输入内容"></textarea>
+          <textarea
+            class="textarea"
+            placeholder="请输入您要留言的内容"
+          ></textarea>
         </div>
         <div class="submit"><button class="btn">提交留言</button></div>
       </div>
+    </div>
+    <div class="review_list_container">
+      <Comment />
     </div>
   </div>
 </template>
 
 <script>
+import Comment from "../../components/comment.vue";
 export default {
   name: "message",
+  components: {
+    Comment,
+  },
   data() {
     return {
       time: {
@@ -303,7 +313,8 @@ export default {
     height: 100%;
     position: relative;
     box-sizing: border-box;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
     .message_item {
       position: absolute;
       .YoutubeVideo {
@@ -333,6 +344,7 @@ export default {
         float: right;
         background-color: #3a3a3a;
         transform: translate(0px, 10px);
+        color: #0cc;
       }
 
       .Title {
@@ -361,11 +373,12 @@ export default {
   .review {
     width: 100%;
     height: auto;
-    // background-color: rgba(0, 0, 0, 0.9);
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-top: 20px;
+    margin-bottom: 20px;
     .animation {
       width: 40%;
       height: 300px;
@@ -721,9 +734,9 @@ export default {
       color: #0cc;
       position: relative;
       flex: 1;
-      background-color: rgba(0, 0, 0, 0.5);
+      //   background-color: rgba(0, 0, 0, 0.5);
       height: 300px;
-      border-radius: 20px;
+      border-radius: 10px;
       padding: 20px;
       box-sizing: border-box;
       display: flex;
@@ -805,5 +818,15 @@ export default {
       }
     }
   }
+}
+
+.review_list_container {
+  width: 100%;
+  height: auto;
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 1px 10px;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 999;
 }
 </style>

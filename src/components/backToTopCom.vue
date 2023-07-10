@@ -1,6 +1,6 @@
 <template>
   <div class="top" @click="backToTop">
-    <i class="iconfont icon-33kejichuangxin-huojian"></i>
+    <button>↑</button>
   </div>
 </template>
 
@@ -22,7 +22,30 @@ export default {
   right: 50px;
   bottom: 50px;
   cursor: pointer;
-  border-radius: 100%;
-  border: 1px solid #0cc;
+  button {
+    font-size: 20px;
+    background-color: white;
+    color: black;
+    width: 45px;
+    height: 45px;
+    opacity: 0.75;
+    border: 1px solid #e7eae8;
+    border-radius: 8px;
+    cursor: pointer;
+    animation: bounce_513 1s infinite;
+  }
+
+  @keyframes bounce_513 {
+    0%,
+    100% {
+      transform: translateY(-25%);
+      animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+    }
+
+    50% {
+      transform: translateY(0);
+      animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    }
+  }
 }
 </style>

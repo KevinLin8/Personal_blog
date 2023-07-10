@@ -2,19 +2,18 @@
   <div class="title_container">
     <div class="l" v-if="isRecommendedShow">
       <i class="iconfont icon-weblanmutiao_jingxuantuijian"></i>
-      <h3>推荐专栏</h3>
+      <h3>{{ lefttitle }}</h3>
     </div>
     <div class="r">
       <i class="iconfont icon-quanbu"></i>
-      <h3>全部专栏</h3>
+      <h3>{{ righttitle }}</h3>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "title",
-  props: ["isRecommendedShow"],
+  props: ["isRecommendedShow", "lefttitle", "righttitle"],
 };
 </script>
 

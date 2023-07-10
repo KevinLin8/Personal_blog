@@ -10,7 +10,7 @@
 <script>
 export default {
   name: "specialCom",
-  props: ["imglist"],
+  props: ["imglist", "ArticleList"],
 };
 </script>
 

@@ -1,35 +1,68 @@
 <template>
-  <div class="article_container">
-    <div class="img_box">
-      <div class="Sliding"></div>
-      <img
-        src="https://file03.16sucai.com/2017/1100/16sucai_p564c027_0f1.JPG"
-        alt=""
-      />
-      <div class="time">2023-05-15</div>
-    </div>
-    <div class="content">
-      <div class="content_text">
-        <h3 class="title">如何应对Chrome 112版本中的getDisplayMedia问题？</h3>
-        <p class="description">
-          前几天chrome发布了112版本，原本可以通过getDisplayMedia正确的获取当前标签页的内容，在此版本中却出现了内容挤压、概率性出现滚动条问题。经过一番思考后，我想到了两个处理方案，本文就跟大家分享下我的思路，欢迎各位感兴趣的开发者阅读本文。
-        </p>
+  <div>
+    <div
+      v-for="(item, index) in ArticleList"
+      :key="index"
+      class="article_container"
+      @click="skiparticledetail(item)"
+    >
+      <div class="img_box">
+        <div class="Sliding"></div>
+        <img :src="item.imgsrc || item.file_img" alt="图片无法展示" />
+        <div class="time">{{ formatTime(item.create_time) }}</div>
       </div>
-      <ul class="related">
-        <li>2023-05-15&nbsp;</li>
-        /
-        <li>&nbsp;<i class="iconfont icon-chakan2"></i>&nbsp;55&nbsp;</li>
-        /
-        <li>&nbsp;<i class="iconfont icon-pinglun"></i>&nbsp;5&nbsp;</li>
-        /
-        <li>&nbsp;<i class="iconfont icon-dianzan"></i>&nbsp;24</li>
-      </ul>
+      <div class="content">
+        <div class="content_text">
+          <h3 class="title">{{ item.title }}</h3>
+          <p class="description">
+            {{ item.description }}
+          </p>
+        </div>
+        <ul class="related">
+          <li>{{ formatTime(item.create_time) }}&nbsp;</li>
+          /
+          <li>
+            &nbsp;<i class="iconfont icon-chakan2"></i>&nbsp;{{
+              item.see
+            }}&nbsp;
+          </li>
+          /
+          <li>
+            &nbsp;<i class="iconfont icon-pinglun"></i>&nbsp;{{
+              item.comment
+            }}&nbsp;
+          </li>
+          /
+          <li>
+            &nbsp;<i class="iconfont icon-dianzan"></i>&nbsp;{{ item.like }}
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+import { formatTime } from "../tool";
+import { UpdateArticleLikesOrViews } from "../api/request";
+export default {
+  data() {
+    return {};
+  },
+  props: ["ArticleList"],
+  computed: {},
+  async mounted() {},
+  methods: {
+    async skiparticledetail(article) {
+      let id = article.id;
+      const UpdateResult = await UpdateArticleLikesOrViews(id, {
+        watchOrLike: 1,
+      });
+      this.$router.push(`/detail/${id}`);
+    },
+    formatTime,
+  },
+};
 </script>
 
 <style lang="less" scoped>
@@ -73,7 +106,7 @@ export default {};
       transition: all 0.3s ease;
       text-align: center;
       border-radius: 10px;
-      background-color: rgba(0, 204, 204, 0.5);
+      background-color: rgba(0, 0, 0, 0.5);
       font-size: 12px;
       line-height: 15px;
       font-family: "Times New Roman", Times, serif;
