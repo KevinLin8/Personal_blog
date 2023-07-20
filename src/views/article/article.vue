@@ -2,7 +2,7 @@
   <div class="article warp">
     <main class="content">
       <Titlecom righttitle="全部文章" :isRecommendedShow="false" />
-      <Article />
+      <ArticleCom :ArticleList="ArticleList" />
     </main>
     <Side :IsWechatCodeShow="true" />
   </div>
@@ -10,14 +10,30 @@
 
 <script>
 import Titlecom from "../../components/titleCom.vue";
-import Article from "../../components/articleCom.vue";
+import ArticleCom from "../../components/articleCom.vue";
 import Side from "../../components/sideCom.vue";
+import { GETARTICLELIST } from "../../api/request";
 export default {
+  data() {
+    return {
+      ArticleList: [],
+    };
+  },
   components: {
     Titlecom,
-    Article,
+    ArticleCom,
     Side,
   },
+  async created() {
+    if (!this.$route.query.type) {
+      let result = await GETARTICLELIST();
+      this.ArticleList = result.data;
+      return;
+    }
+    let result = await GETARTICLELIST({ type: this.$route.query.type || 1 });
+    this.ArticleList = result.data;
+  },
+  mounted() {},
 };
 </script>
 

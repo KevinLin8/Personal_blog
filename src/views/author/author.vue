@@ -13,11 +13,18 @@
       <div class="Say_it_personally">
         <div class="title">
           <i class="icon iconfont icon-xingbiaoti-"></i>
-          <h1>Hey,linxiao</h1>
+          <h1>hi &numsp;我是<span>"程序猿林萧"</span></h1>
         </div>
-        <p>
-          dasfgasgagdfklasklfklrgradgdfhhcvxredasfgasgagdfklasklfklrgradgdfhhcvxredasfgasgagdfklasklfklrgradgdfhhcvxredasfgasgagdfklasklfklrgradgdfhhcvxredasfgasgagdfklasklfklrgradgdfhhcvxredasfgasgagdfklasklfklrgradgdfhhcvxredasfgasgagdfklasklfklrgradgdfhhcvxredasfgasgagdfklasklfklrgradgdfhhcvxredasfgasgagdfklasklfklrgradgdfhhcvxredasfgasgagdfklasklfklrgradgdfhhcvxredasfgasgagdfklasklfklrgradgdfhhcvxredasfgasgagdfklasklfklrgradgdfhhcvxredasfgasgagdfklasklfklrgradgdfhhcvxredasfgasgagdfklasklfklrgradgdfhhcvxredasfgasgagdfklasklfklrgradgdfhhcvxredasfgasgagdfklasklfklrgradgdfhhcvxredasfgasgagdfklasklfklrgradgdfhhcvxredasfgasgagdfklasklfklrgradgdfhhcvxre
+        <p class="introduce">
+          欢迎您光临我的个人博客，博主99年出生，喜欢唱.跳.rap.篮球，是一位工作3年的前端开发工程师。
         </p>
+        <p class="introduce">
+          开发本站主要是因为博主在学习Nestjs过程，觉得技术点零零碎碎，想要整合一下做一个小网站，因此诞生了这个博客网站，本站采用前后端分离开发，前端框架：vue，后端框架：NestJs，数据库：mySql，前端运维：cloudbase，后端运维：serverless
+        </p>
+        <ul>
+          <li><i></i>如果你对我感兴趣，可以加我微信 进一步交流;</li>
+          <li><i></i>我的邮箱: 2367884500@qq.com;</li>
+        </ul>
       </div>
       <div class="Be_fond_of">
         <div class="card-container">
@@ -165,14 +172,33 @@ export default {
     padding: 20px;
     word-wrap: break-word;
     border-radius: 10px;
+    font-size: 15px;
     .title {
       display: flex;
       h1 {
         margin-left: 5px;
+        span {
+          color: rgb(34, 183, 132);
+        }
       }
     }
-    p {
+    .introduce {
       text-indent: 20px;
+      line-height: 1.5;
+    }
+    ul li {
+      list-style-type: disc;
+      font-size: 15px;
+      color: rgb(34, 183, 132);
+      font-family: "Times New Roman", Times, serif;
+      margin-left: 2em;
+      margin-top: 10px;
+    }
+    ul li:first-child {
+      margin-top: 20px;
+    }
+    ul li:hover {
+      color: #0cc;
     }
   }
 

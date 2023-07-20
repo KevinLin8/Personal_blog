@@ -1,7 +1,12 @@
 <template>
   <div class="special_container">
-    <div class="card" v-for="(item, index) in imglist" :key="index">
-      <img :src="item" alt="图片无法展示" />
+    <div
+      class="card"
+      v-for="(item, index) in columnData"
+      :key="index"
+      @click="filterDataToTheArticlePage(item.type)"
+    >
+      <img :src="item.imgurl" alt="图片无法展示" />
       <div class="Overlay"></div>
     </div>
   </div>
@@ -10,7 +15,12 @@
 <script>
 export default {
   name: "specialCom",
-  props: ["imglist", "ArticleList"],
+  props: ["columnData", "ArticleList"],
+  methods: {
+    filterDataToTheArticlePage(type) {
+      this.$router.push({ path: "/article", query: { type } });
+    },
+  },
 };
 </script>
 

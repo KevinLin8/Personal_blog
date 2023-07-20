@@ -5,7 +5,7 @@
         class="swiper-slide"
         v-for="(item, index) in filteredData"
         :key="index"
-        @click="Clickonthecarousel"
+        @click="Clickonthecarousel(item.id)"
       >
         <img :src="item.imgsrc" alt="" />
         <div class="overlay">
@@ -30,10 +30,8 @@ export default {
   name: "Swiper",
   async mounted() {
     await this.filterArticleListData(this.ArticleList);
-    await this.addImgsrcAttributeToData();
+    //await this.addImgsrcAttributeToData();
     this.SwiperConfig();
-
-    console.log(this.filteredData);
   },
   props: ["ArticleList"],
   components: {},
@@ -49,8 +47,9 @@ export default {
     };
   },
   methods: {
-    Clickonthecarousel() {
-      console.log("点击了图卡");
+    Clickonthecarousel(id) {
+      console.log("点击了图卡", id);
+      this.$router.push(`/detail/${id}`);
     },
     // swiper配置
     SwiperConfig() {
@@ -85,14 +84,14 @@ export default {
       }
     },
     //新增imgsrc属性
-    addImgsrcAttributeToData() {
-      this.filteredData = this.filteredData.map((item, index) => {
-        return {
-          ...item,
-          imgsrc: this.imgList[index],
-        };
-      });
-    },
+    // addImgsrcAttributeToData() {
+    //   this.filteredData = this.filteredData.map((item, index) => {
+    //     return {
+    //       ...item,
+    //       imgsrc: this.imgList[index],
+    //     };
+    //   });
+    // },
   },
 };
 </script>
@@ -133,7 +132,7 @@ export default {
         .title {
           font-weight: 900;
           font-family: @textstyle;
-          color: #fff;
+          color: #d4c6c6;
         }
         .description {
           font-size: 15px;

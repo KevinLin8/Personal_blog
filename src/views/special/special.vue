@@ -2,7 +2,7 @@
   <div id="special" class="warp">
     <main class="content">
       <Titlecom :isRecommendedShow="false" righttitle="全部专栏" />
-      <Special :imglist="allimglist" />
+      <Special :columnData="allimglist" />
     </main>
     <!-- 侧边栏组件 Side-->
     <Side :IsWechatCodeShow="true" />
@@ -23,24 +23,24 @@ export default {
   data() {
     return {
       allimglist: [
-        require("../../assets/imges/special_BG1.jpeg"),
-        require("../../assets/imges/special_BG2.jpeg"),
-        require("../../assets/imges/special_BG3.png"),
-        require("../../assets/imges/special_BG4.png"),
-        require("../../assets/imges/special_BG5.png"),
-        require("../../assets/imges/special_BG6.jpeg"),
-        require("../../assets/imges/special_BG7.png"),
-        require("../../assets/imges/special_BG8.jpeg"),
-        require("../../assets/imges/special_BG9.png"),
-        require("../../assets/imges/special_BG10.png"),
-        require("../../assets/imges/special_BG11.png"),
-        require("../../assets/imges/special_BG12.jpeg"),
-        require("../../assets/imges/special_BG13.png"),
-        require("../../assets/imges/special_BG14.jpeg"),
-        require("../../assets/imges/special_BG15.png"),
-        require("../../assets/imges/special_BG16.png"),
-        require("../../assets/imges/special_BG17.png"),
-        require("../../assets/imges/special_BG18.png"),
+        { imgurl: require("../../assets/imges/special_BG1.jpeg"), type: 1 },
+        { imgurl: require("../../assets/imges/special_BG2.jpeg"), type: 2 },
+        { imgurl: require("../../assets/imges/special_BG3.png"), type: 3 },
+        { imgurl: require("../../assets/imges/special_BG4.png"), type: 4 },
+        { imgurl: require("../../assets/imges/special_BG5.png"), type: 5 },
+        { imgurl: require("../../assets/imges/special_BG6.jpeg"), type: 6 },
+        { imgurl: require("../../assets/imges/special_BG7.png"), type: 7 },
+        { imgurl: require("../../assets/imges/special_BG8.jpeg"), type: 8 },
+        { imgurl: require("../../assets/imges/special_BG9.png"), type: 9 },
+        { imgurl: require("../../assets/imges/special_BG10.png"), type: 10 },
+        { imgurl: require("../../assets/imges/special_BG11.png"), type: 11 },
+        { imgurl: require("../../assets/imges/special_BG12.jpeg"), type: 12 },
+        { imgurl: require("../../assets/imges/special_BG13.png"), type: 13 },
+        { imgurl: require("../../assets/imges/special_BG14.jpeg"), type: 14 },
+        { imgurl: require("../../assets/imges/special_BG15.png"), type: 15 },
+        { imgurl: require("../../assets/imges/special_BG16.png"), type: 16 },
+        { imgurl: require("../../assets/imges/special_BG17.png"), type: 17 },
+        { imgurl: require("../../assets/imges/special_BG18.png"), type: 18 },
       ],
     };
   },

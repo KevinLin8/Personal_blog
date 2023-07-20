@@ -8,7 +8,11 @@
     >
       <div class="img_box">
         <div class="Sliding"></div>
-        <img :src="item.imgsrc || item.file_img" alt="图片无法展示" />
+        <img
+          class="img"
+          :src="item.imgsrc || item.file_img"
+          alt="图片无法展示"
+        />
         <div class="time">{{ formatTime(item.create_time) }}</div>
       </div>
       <div class="content">
@@ -88,6 +92,7 @@ export default {
     padding-left: 5px;
     position: relative;
     overflow: hidden;
+    max-height: 120px;
     .Sliding {
       position: absolute;
       left: 0;
@@ -112,7 +117,7 @@ export default {
       font-family: "Times New Roman", Times, serif;
       color: #fff;
     }
-    img {
+    .img {
       width: 200px;
       height: 100%;
       border: none;

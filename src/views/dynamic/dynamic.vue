@@ -18,12 +18,12 @@
       >
         <div class="create_time">
           <i class="iconfont icon-wodedongtai icon"></i
-          ><span>{{ item.create_time }}</span>
+          ><span>{{ formatDateTime(item.create_time) }}</span>
         </div>
         <div class="content_box">
           <div class="content_card">
-            <h4 class="say">{{ item.description }}</h4>
-            <div class="img_container clearfix">
+            <pre class="say">{{ decodeURIComponent(item.description) }}</pre>
+            <div v-if="item.imgArrayField" class="img_container clearfix">
               <img
                 v-for="(img, idx) in item.imgArrayField"
                 :key="idx"
@@ -32,10 +32,22 @@
               />
             </div>
             <div class="like">
-              <i class="iconfont icon-dianzan1"></i><span>12</span>
-              <i style="margin-left: 5px" class="iconfont icon-pinglun"></i
-              ><span>12</span>
+              <i class="iconfont icon-dianzan1"></i
+              ><span>{{ item.like }}</span>
+              <i
+                style="margin-left: 5px"
+                class="iconfont icon-pinglun"
+                @click="expandOrCloseTheCommentArea(item)"
+              ></i
+              ><span>{{ item.comment }}</span>
             </div>
+            <Comment
+              v-if="item.isTheCommentAreaDisplayed"
+              title="全部评论"
+              :isTheTopInputBoxDisplayed="true"
+              parentComponentName="dynamic"
+              :dynamic_id="dynamic_id"
+            />
           </div>
         </div>
       </div>
@@ -46,21 +58,37 @@
 </template>
 
 <script>
+import Comment from "../../components/comment.vue";
 import Side from "../../components/sideCom.vue";
 import { GetAllUpdates } from "../../api/request";
+import { formatDateTime } from "../../tool/index";
 export default {
   name: "dynamic",
   components: {
     Side,
+    Comment,
   },
   data() {
     return {
       DynamicDataList: [],
+      dynamic_id: 0,
     };
   },
   async created() {
     let result = await GetAllUpdates();
-    this.DynamicDataList = result.data;
+    this.DynamicDataList = result.data.map((item) => {
+      return {
+        ...item,
+        isTheCommentAreaDisplayed: false,
+      };
+    });
+  },
+  methods: {
+    formatDateTime,
+    expandOrCloseTheCommentArea(dynamic) {
+      this.dynamic_id = dynamic.id;
+      dynamic.isTheCommentAreaDisplayed = !dynamic.isTheCommentAreaDisplayed;
+    },
   },
 };
 </script>
@@ -130,22 +158,24 @@ export default {
             color: @text;
             font-family: @textstyle;
             font-size: 15px;
+            word-wrap: break-word;
           }
           .img_container {
             width: 100%;
-            // height: 270px;
             height: auto;
             float: left;
             margin-top: 10px;
             overflow-x: auto;
-            // max-height: 270px;
+            max-height: 270px;
             overflow-y: auto;
             img {
               max-width: 240px;
-              height: auto;
+              height: 240px;
               border: none;
               vertical-align: bottom;
               margin: 5px;
+              object-fit: contain;
+              object-position: center;
             }
           }
           .like {

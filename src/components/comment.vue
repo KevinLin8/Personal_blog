@@ -1,14 +1,21 @@
 <template>
   <div class="commentCom">
-    <h2 class="allcomment">全部评论:</h2>
+    <h2 class="allcomment">
+      {{ formattedCommentData.length ? title + ":" : "暂无评论" }}
+    </h2>
     <InputText
+      v-if="isTheTopInputBoxDisplayed"
       firstLevelOrSecondLevel="1"
       :ArticleID="ArticleID"
-      @commentCompletedUpdatingData="commentCompletedUpdatingData"
+      :parentComponentName="parentComponentName"
+      @monitoringAndSubmittingCommentEventsTriggerDataUpdates="
+        monitoringAndSubmittingCommentEventsTriggerDataUpdates
+      "
+      :dynamic_id="dynamic_id"
     />
     <div
       class="Period"
-      v-for="(item, index) in formattedCommentData"
+      v-for="(item, index) in formattedCommentData || []"
       :key="index"
     >
       <div class="user_container">
@@ -17,9 +24,9 @@
             <i class="iconfont icon-touxiang_avatar"></i>
           </div>
           <div class="nickname">
-            <p class="name">{{ item.user_nickname }}</p>
+            <p class="name">{{ item.user_nickname || "" }}</p>
             <p class="signature">
-              发布于: {{ formatDateTime(item.create_time) }}
+              发布于: {{ formatDateTime(item.create_time) || "" }}
             </p>
           </div>
         </div>
@@ -30,12 +37,13 @@
           回复
         </div>
       </div>
-      <p class="content">{{ item.content }}</p>
+      <p class="content">{{ item.content || "" }}</p>
       <InputText
         v-if="item.istemporarilyTextBox"
         :CurrentCommentData="replyToCurrentCommentData"
         @listenAndSubmitButton="updateistemporarilyTextBox"
         firstLevelOrSecondLevel="2"
+        :parentComponentName="parentComponentName"
       />
       <template v-if="item.subsetComments.length">
         <div
@@ -75,6 +83,7 @@
             :CurrentCommentData="replyToCurrentCommentData"
             @listenAndSubmitButton="updateistemporarilyTextBox"
             firstLevelOrSecondLevel="2"
+            :parentComponentName="parentComponentName"
           />
         </div>
       </template>
@@ -85,7 +94,11 @@
 <script>
 import InputText from "./inputText.vue";
 import { formatDateTime } from "../tool/index";
-import { GetCommentData } from "../api/request";
+import {
+  GetCommentData,
+  GetAllMessages,
+  GetDynamicCommentData,
+} from "../api/request";
 export default {
   computed: {},
   data() {
@@ -101,7 +114,13 @@ export default {
   components: {
     InputText,
   },
-  props: ["ArticleID"],
+  props: [
+    "ArticleID",
+    "title",
+    "parentComponentName",
+    "isTheTopInputBoxDisplayed",
+    "dynamic_id",
+  ],
   mounted() {},
   async created() {
     this.getCommentData();
@@ -109,21 +128,24 @@ export default {
   methods: {
     // 格式化时间
     formatDateTime,
-    // 随机颜色
-    getRandomColor() {
-      const letters = "0123456789ABCDEF";
-      let color = "#";
-      for (let i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
-      }
-      return color;
-    },
     // 获取评论数据
     async getCommentData() {
-      let commentdata = await GetCommentData(this.ArticleID);
-      this.CommentList = commentdata.data;
+      if (this.parentComponentName == "detail") {
+        let commentdata = await GetCommentData(this.ArticleID);
+        this.CommentList = commentdata.data;
+      }
+      if (this.parentComponentName == "message") {
+        let commentdata = await GetAllMessages();
+        this.CommentList = commentdata.data;
+      }
+      if (this.parentComponentName == "dynamic") {
+        let commentdata = await GetDynamicCommentData(this.dynamic_id);
+        this.CommentList = commentdata.data;
+        console.log("this.CommentList", this.CommentList);
+      }
       this.formattedCommentData = [];
       this.formatCommentDataStructureFn(this.CommentList);
+      console.log("this.formattedCommentData:", this.formattedCommentData);
     },
     // 回复的点击事件：评论框的展示与隐藏
     temporarilyTextBox(arr, comment, idx) {
@@ -166,22 +188,26 @@ export default {
       this.formattedCommentData.forEach((comment) => {
         if (comment.id == commentID) {
           comment.istemporarilyTextBox = !comment.istemporarilyTextBox;
+          this.getCommentData();
           this.$forceUpdate();
         } else {
           if (comment.subsetComments.length) {
             comment.subsetComments.forEach((sub) => {
               if (sub.id == commentID) {
                 sub.istemporarilyTextBox = !sub.istemporarilyTextBox;
+                this.getCommentData();
+                this.$forceUpdate();
               }
             });
           }
         }
       });
     },
-    // 评论完成更新数据
-    commentCompletedUpdatingData() {
-      console.log("评论完成了，需要更新数据");
+
+    // 监听提交评论事件触发数据更新
+    monitoringAndSubmittingCommentEventsTriggerDataUpdates() {
       this.getCommentData();
+      this.$forceUpdate();
     },
   },
 };

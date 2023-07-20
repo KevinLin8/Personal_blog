@@ -54,10 +54,10 @@ export function fetchPost(url, params) {
   });
 }
 // 返回一个Promise(发送get请求)
-export function fetchGet(url, param) {
+export function fetchGet(url, data) {
   return new Promise((resolve, reject) => {
     axios
-      .get(url, { params: param })
+      .get(url, { params: data })
       .then(
         (response) => {
           resolve(response.data);
@@ -79,7 +79,7 @@ export function fetchPatch(url, params) {
       .patch(url, params)
       .then(
         (response) => {
-          resolve(response);
+          resolve(response.data);
         },
         (err) => {
           reject(err);

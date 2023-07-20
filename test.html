@@ -6,19 +6,125 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+<style>
+    body {
+        background-color: rgba(0, 0, 0, .5);
+    }
+</style>
 <body>
-            <!-- <video src="https://img-baofun.zhhainiao.com/pcwallpaper_ugc/preview/2366564fa6b83158208eb3181752a8d6_preview.mp4"
-                autoplay muted loop></video>
-        <video src="https://img-baofun.zhhainiao.com/market/133/3760b2031ff41ca0bd80bc7a8a13f7bb_preview.mp4" autoplay muted
-            loop></video>
-<video src="https://img-baofun.zhhainiao.com/market/semvideo/3fc6cdef4427e61be69096c6ebb59a1c_preview.mp4" autoplay
-    muted loop></video>
-<video src="https://img-baofun.zhhainiao.com/market/semvideo/6ac24b3f50fda0b1a55f7ff25c6b62af_preview.mp4" autoplay
-    muted loop></video>
-<video src="https://img-baofun.zhhainiao.com/market/133/97ba6b60662ab4f31ef06cdf5a5f8e94_preview.mp4" autoplay muted
-    loop></video>
+    <main class="content_container">
+        <style>
+           .content_container .section ul li{
+            list-style-type: disc;
+            font-size: 15px;
+            color: rgb(34, 183, 132);
+            font-family: "Times New Roman", Times, serif;
+            margin-left: 2em;
+            margin-top: 10px;
+            }
+            .content_container .section ul li:first-child {
+            margin-top: 20px;
+            }
+            .content_container .section ul li:hover {
+            color: #0cc;
+            }
+            .content_container {
+                width: 100%;
+                height: auto;
+                padding: 20px;
+                box-sizing: border-box;
+            }
+    
+            .content_container .section {
+                width: 100%;
+                height: 100%;
+                position: relative;
+            }
 
- -->
+            .content_container .section h2 {
+                display: flex;
+                align-items: center;
+                height: 25px;
+                line-height: 25px;
+                margin-top: 20px;
+            }
+            .content_container .section h2 .icon{
+    width: 5px;
+    height: 80%;
+                background: linear-gradient(289deg, #20b985 0%, #436459 100%);
+            }
+            .content_container .section h2 span{
+                font-size:20px;
+                color: #fff;
+                font-weight: 900;
+                font-family: "Times New Roman", Times, serif;
+                margin-left: 8px;
+            }
+            .content_container .section p {
+                font-size: 15px;
+                color: #cec6c6;
+                margin-top: 20px;
+                text-indent: 2em;
+                line-height: 1.5;
+            }
+    
+            .content_container .section img,
+            .content_container .section video {
+                width: 100%;
+                height: 100%;
+                border: none;
+                margin-top: 10px;
+            }
+            .content_container .cover{
+                width: 100%;
+                max-height: 250px;
+                border: none;
+                border-radius: 10px;
+                display: block;
+            }
+        </style>
+        <img class="cover" src="http://blogcontainer.oss-cn-guangzhou.aliyuncs.com/article/timePassword/cover.jpg" alt="">
+        <div class="section" id="section1">
+            <h2><i class="icon"></i><span>前言</span></h2>
+            <p>未来，可能会有这样一种密码系统：即使别人拿到你的密码，密码输入正确，但也无法通过验证，只有自己输入自己的密码，才是正确的。</p>
+        </div>
+        <div class="section" id="section2">
+            <h2><i class="icon"></i><span>功能效果</span></h2>
+            <p>设计一种新的密码验证功能，不但验证密码的正确性，还会检测密码输入规律，判断密码输入速度、分析每个字符按下的时间间隔。</p>
+        </div>
+        <div class="section" id="section3">
+            <h2><i class="icon"></i><span>技术原理</span></h2>
+            <p>每个人输入字符时，都有自己的特定的规律习惯，特别是密码：如果是一个高频使用的字符串，更是会有
+            自己独特的输入节奏，比如整体输入耗时、每个字符间的停顿时间间隔。如果密验证系统在检测时同时对
+            这行行为特征判断，那么即使密码泄露、即使他人获取了密码，也无法使用，因为他人不知道密码主人的
+            输入习惯。</p>
+            <p>下面，将演示如何实现这样的密码系统。
+            现在的密码校验，都是将密码由前端传给后端，由后端判断密码是否正确。
+            而这种新的系统，在用户输入密码时，会同时记录每个字符输入时的时间，并和密码一同发往后端。
+            两者的区别是：新增对密码输入时间的分析。</p>
+        </div>
+        <div class="section" id="section4">
+            <h2><i class="icon"></i><span>源码说明</span></h2>
+            <p>说明：为演示方便，在网页中实现此演示，并在前端直接验证。实际应用时，密码、时间数据等都应该存储在后端，校验也应该在后端完成。</p> 
+            <img src="http://blogcontainer.oss-cn-guangzhou.aliyuncs.com/article/timePassword/code1.png" alt="">
+            <img src="http://blogcontainer.oss-cn-guangzhou.aliyuncs.com/article/timePassword/code3.png" alt="">
+            <p>上图部分，是初始化，预存储一个密码和密码对应的按键时间（单位为毫秒）。然后的重点是校验，在用户输入密码后，先校验密码的正确性，再校验其输入规律：</p>
+        </div>
+        <div class="section" id="section5">
+            <h2><i class="icon"></i><span>密码校验</span></h2>
+            <img src="http://blogcontainer.oss-cn-guangzhou.aliyuncs.com/article/timePassword/code2.png" alt="">
+            <p>有一个现实问题是：用户每次输入密码时，按键速度不可能每次都完全一样，肯定是有差别的，因此，设置了一个容错值，如上图中显示，在本例了这个值设为了 300 毫秒，即：允许每个按键的时间有一定差别，可以快一些，也可以慢一些。</p>
+        </div>
+        <div class="section" id="section6">
+            <h2><i class="icon"></i><span>写在最后</span></h2>
+            <p>至此，文章就分享完毕了,本文只演示了一个功能简单的 DEMO，相信在未来，定会有这样的密码系统。</p> 
+            <p>我是程序员林萧，一位前端开发工程师。</p>
+            <ul>
+                <li>文中如有错误，欢迎在评论区指正，如果这篇文章帮到了你，欢迎点赞和关注</li>
+            </ul>
+        </div>
+    </main>
+
 
     <main class="content_container">
         <style>
@@ -83,52 +189,80 @@
                 border: none;
                 margin-top: 10px;
             }
+            .content_container .cover{
+                width: 100%;
+                max-height: 250px;
+                border: none;
+                border-radius: 10px;
+                display: block;
+            }
         </style>
+        <img class="cover" src="http://blogcontainer.oss-cn-guangzhou.aliyuncs.com/article/ajax/cove.png" alt="">
         <div class="section" id="section1">
             <h2><i class="icon"></i><span>前言</span></h2>
-            <p>Webstorm发布2023年的第一个版本后，软件内置的很多工具窗口都只能在编辑区域内显示，看起来很不习惯。一直以为它是bug，忍受了有一段时间了，等官方发版修复。</p>
-            <p>前几天，2023.1版本的最后一个小版本也推送了，这个问题仍然存在，我就觉得或许不是官方的问题，会不会是我用的主题没适配新版本？</p>
-            <p>于是乎，我把主题禁用了，换回了默认主题，发现问题仍然存在。经过一番折腾后，我终于彻底解决了这个问题，本文就跟大家分享下我是如何解决的，欢迎各位感兴趣的开发者阅读本文。</p>
+            <p>如果将 JavaScript 代码转化成能执行的二进制字符串，是不是很有意思呢？起码看起来会很酷，运行效果如下图：</p>
+            <img src="http://blogcontainer.oss-cn-guangzhou.aliyuncs.com/article/ajax/code1.png" alt="">
+            <p>在图中，可以看到二进制字符串被执行，并输出了结果。</p>
+            <p>这是如何实现的呢？</p>
         </div>
         <div class="section" id="section2">
-            <h2><i class="icon"></i><span>更改窗口的显示模式</span></h2>
-            <p>我们以Git窗口为例，默认是只能在编辑区域内展示，如下所示：</p> 
-            <img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b792e822e4f544e7a7be91b4d822a7ae~tplv-k3u1fbpfcp-zoom-1.image" alt="">
-            <p>我们将鼠标指针悬浮到工具栏的右上角，分别选择 <strong>View Mode->Undock</strong></p>
-            <img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/39f64a0040874d63acd5d35af67e2e58~tplv-k3u1fbpfcp-zoom-1.image" alt="">
-            <p>选择undock后，工具栏就铺满横向屏幕区域了，但是文件树区域以及代码区域却显示不全了（面板遮挡住了，无法滚动到最底部）。</p>
-            <img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f22e802c0cc3483ea6ba2dc22f53bf27~tplv-k3u1fbpfcp-zoom-1.image" alt="">
+            <h2><i class="icon"></i><span>将JS字符串转换成二进制形式</span></h2>
+            <p>二进制字符串的得来也比较简单，代码如下：</p>
+            <img src="http://blogcontainer.oss-cn-guangzhou.aliyuncs.com/article/ajax/code2.png" alt="">
+            <img src="http://blogcontainer.oss-cn-guangzhou.aliyuncs.com/article/ajax/code3.png" alt="">
+            <p>由代码可知，这确实是一段二进制字符，但显然二进制是不能直接执行的，它是由正常代码编码而成的，执行前，先需将二进制转化为原始代码。然后，用 new Function 的方式转成立即执行函数并运行。相当于是一种看起来比较绚丽的加密算法</p>
         </div>
         <div class="section" id="section3">
-            <h2><i class="icon"></i><span>关闭宽屏工具窗口布局</span></h2>
-            <p>更改窗口的显示模式为undock后，工具栏确实铺满了，但是并不完美，于是我就开始翻设置面板，经过一番尝试后，在设置面板中找到了Widthscreen tool window layout选项，把它取消勾选后，再将显示模式改回默认的Dock
-            Pinned。</p>
-            <img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/fb7366193e4e4ee09d1ef2774d707c4f~tplv-k3u1fbpfcp-zoom-1.image" alt="">
-            <img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b3b82eaa80a24b4e8be55e504b77f3cb~tplv-k3u1fbpfcp-zoom-1.image" alt="">
-            <p>完成上述操作后，此问题就完美解决了</p>
-            <img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9a03249981104f61a591d20fcc4be5a8~tplv-k3u1fbpfcp-zoom-1.image" alt="">
+            <h2><i class="icon"></i><span>将二进制字符串转换成js代码执行</span></h2>
+            <img src="http://blogcontainer.oss-cn-guangzhou.aliyuncs.com/article/ajax/code4.png" alt="">
         </div>
         <div class="section" id="section4">
-            <h2><i class="icon"></i><span>本系列其他文章</span></h2>
-            <p>本文是Webstorm使用分享系列的第4篇文章，如果你对其他文章感兴趣请移步：</p> 
-            <ul>
-                <li>合理使用WebStorm-环境配置篇</li>
-                <li>合理使用WebStorm - 好用的内置git工具</li>
-                <li>合理使用WebStorm-自定义TouchBar提升使用体验</li>
-            </ul>
-        </div>
-        <div class="section" id="section5">
             <h2><i class="icon"></i><span>写在最后</span></h2>
-            <p>至此，文章就分享完毕了。</p> 
+            <p>至此，文章就分享完毕了,本文只演示了一个功能简单的DEMO。</p> 
             <p>我是程序员林萧，一位前端开发工程师。</p>
-            <p>如果你对我感兴趣，请移步我的个人网站，进一步了解。</p>
             <ul>
                 <li>文中如有错误，欢迎在评论区指正，如果这篇文章帮到了你，欢迎点赞和关注</li>
-                <li>本文首发于神奇的程序员公众号，未经许可禁止转载</li>
             </ul>
         </div>
     </main>
 
+    <p>阿斯蒂芬/n</p>
 <!-- 压缩html：https://www.mshxw.com/tools/htmltool/compress-html-compression.php -->
+<script>
+    // 一开始的url
+    // let link = "https://blogcontainer.oss-cn-guangzhou.aliyuncs.com/dynamic/dp.jpg?Expires=1689665843&OSSAccessKeyId=TMP.3Kh5JiDAfFswCVjGTqqfnDQxCzbaeQQ4U4ZkxtDNgUUgN3CuStLKXnpX2vbzJa8KdS9PygESwvefWxRGrGFteojU1KhMqm&Signature=Ri33NEl8bs3%2BmTItcWIpaHfn%2FdM%3D"
+    // const encodedLink = encodeURIComponent(link);
+    // console.log("encodedLink:",encodedLink);//编码后
+
+    // // 从数据库拿出来的
+    // let mysql = "https%3A%2F%2Fblogcontainer.oss-cn-guangzhou.aliyuncs.com%2Fdynamic%2Fdp.jpg%3FExpires%3D1689665843%26OSSAccessKeyId%3DTMP.3Kh5JiDAfFswCVjGTqqfnDQxCzbaeQQ4U4ZkxtDNgUUgN3CuStLKXnpX2vbzJa8KdS9PygESwvefWxRGrGFteojU1KhMqm%26Signature%3DRi33NEl8bs3%252BmTItcWIpaHfn%252FdM%253D"
+    // const decodedLink = decodeURIComponent(mysql);   
+    // console.log("decodedLink:",decodedLink);
+
+    
+    let str = encodeURIComponent(`
+地球大约有70亿人😊
+
+人的一生会遇见约2920万人😇
+
+两个人相遇的概率是0.00487🙃
+
+相爱的概率是0.000049😍
+
+所以你不爱我  
+
+我不怪你💗`)
+    let str1 = encodeURIComponent(`
+上班消息秒回🤪
+
+下班消失的我🤡`
+            )
+
+    console.log(str);
+    console.log(str1);
+    console.log(decodeURIComponent(str));
+    console.log(decodeURIComponent(str1));
+</script>
+
 </body>
 </html>

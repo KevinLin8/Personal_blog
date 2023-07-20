@@ -61,7 +61,13 @@
         <div class="container" v-html="htmlContent"></div>
       </div>
       <div class="commentArea">
-        <Comment v-if="ArticleID" :ArticleID="ArticleID" />
+        <Comment
+          title="全部评论"
+          v-if="ArticleID"
+          :ArticleID="ArticleID"
+          parentComponentName="detail"
+          :isTheTopInputBoxDisplayed="true"
+        />
       </div>
     </div>
     <Side :IsWechatCodeShow="true" />

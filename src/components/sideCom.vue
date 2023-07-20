@@ -66,7 +66,6 @@
       <img class="face ANIMATIONS" src="../assets/imges/vx2.jpg" alt="" />
       <img class="back ANIMATIONS" src="../assets/imges/vx.jpg" alt="" />
     </div>
-    <slot name="nav"></slot>
     <div class="message Fillet_corner">
       <h3 class="title">
         <i class="iconfont icon-remen"></i>&nbsp;<strong>最新文章</strong>
@@ -100,11 +99,9 @@ export default {
 // 侧边栏start
 .side {
   width: 300px;
-  height: 760px;
+  height: auto;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-
   .Fillet_corner {
     border-radius: 10px;
   }
@@ -255,7 +252,7 @@ export default {
     margin-top: 20px;
     width: 100%;
     height: auto;
-    min-height: 240px;
+    // min-height: 240px;
     background-color: @back;
     padding: 0 10px;
     box-sizing: border-box;

@@ -10,7 +10,7 @@
         righttitle="全部专栏"
       />
       <!--专栏组件 Special  -->
-      <Special :imglist="imglist" />
+      <Special :columnData="imglist" />
       <!-- 文章组件 Article -->
       <Article :ArticleList="ArticleList" />
     </main>
@@ -33,9 +33,9 @@ export default {
   data() {
     return {
       imglist: [
-        require("../../assets/imges/special_BG1.jpeg"),
-        require("../../assets/imges/special_BG2.jpeg"),
-        require("../../assets/imges/special_BG3.png"),
+        { imgurl: require("../../assets/imges/special_BG1.jpeg"), type: 1 },
+        { imgurl: require("../../assets/imges/special_BG2.jpeg"), type: 2 },
+        { imgurl: require("../../assets/imges/special_BG3.png"), type: 3 },
       ],
       ArticleList: [],
     };

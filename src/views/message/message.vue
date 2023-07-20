@@ -1,6 +1,6 @@
 <template>
   <div id="message" class="warp">
-    <h2 class="title">Message board</h2>
+    <h2 class="title">留言板</h2>
     <div class="author">
       <div class="img">
         <img src="../../assets/imges/avatar.jpg" alt="" />
@@ -13,104 +13,16 @@
       </div>
     </div>
     <ul class="message_container" ref="msg">
-      <li class="message_item">
+      <li
+        class="message_item"
+        v-for="(item, index) in CommentList"
+        :key="index"
+      >
         <div class="YoutubeVideo">
-          <div class="Image">最近还好吗?</div>
+          <div class="Image">{{ item.content }}</div>
           <div class="Icon iconfont icon-touxiang_avatar"></div>
-          <div class="Title">
-            {{ time.hours + ":" + time.minutes + ":" + time.seconds }}
-          </div>
-          <div class="Name">神奇的程序员</div>
-        </div>
-      </li>
-      <li class="message_item">
-        <div class="YoutubeVideo">
-          <div class="Image">最近还好吗?</div>
-          <div class="Icon iconfont icon-touxiang_avatar"></div>
-          <div class="Title">
-            {{ time.hours + ":" + time.minutes + ":" + time.seconds }}
-          </div>
-          <div class="Name">神奇的程序员</div>
-        </div>
-      </li>
-      <li class="message_item">
-        <div class="YoutubeVideo">
-          <div class="Image">最近还好吗?</div>
-          <div class="Icon iconfont icon-touxiang_avatar"></div>
-          <div class="Title">
-            {{ time.hours + ":" + time.minutes + ":" + time.seconds }}
-          </div>
-          <div class="Name">神奇的程序员</div>
-        </div>
-      </li>
-      <li class="message_item">
-        <div class="YoutubeVideo">
-          <div class="Image">最近还好吗?</div>
-          <div class="Icon iconfont icon-touxiang_avatar"></div>
-          <div class="Title">
-            {{ time.hours + ":" + time.minutes + ":" + time.seconds }}
-          </div>
-          <div class="Name">神奇的程序员</div>
-        </div>
-      </li>
-      <li class="message_item">
-        <div class="YoutubeVideo">
-          <div class="Image">最近还好吗?</div>
-          <div class="Icon iconfont icon-touxiang_avatar"></div>
-          <div class="Title">
-            {{ time.hours + ":" + time.minutes + ":" + time.seconds }}
-          </div>
-          <div class="Name">神奇的程序员</div>
-        </div>
-      </li>
-      <li class="message_item">
-        <div class="YoutubeVideo">
-          <div class="Image">最近还好吗?</div>
-          <div class="Icon iconfont icon-touxiang_avatar"></div>
-          <div class="Title">
-            {{ time.hours + ":" + time.minutes + ":" + time.seconds }}
-          </div>
-          <div class="Name">神奇的程序员</div>
-        </div>
-      </li>
-      <li class="message_item">
-        <div class="YoutubeVideo">
-          <div class="Image">最近还好吗?</div>
-          <div class="Icon iconfont icon-touxiang_avatar"></div>
-          <div class="Title">
-            {{ time.hours + ":" + time.minutes + ":" + time.seconds }}
-          </div>
-          <div class="Name">神奇的程序员</div>
-        </div>
-      </li>
-      <li class="message_item">
-        <div class="YoutubeVideo">
-          <div class="Image">最近还好吗?</div>
-          <div class="Icon iconfont icon-touxiang_avatar"></div>
-          <div class="Title">
-            {{ time.hours + ":" + time.minutes + ":" + time.seconds }}
-          </div>
-          <div class="Name">神奇的程序员</div>
-        </div>
-      </li>
-      <li class="message_item">
-        <div class="YoutubeVideo">
-          <div class="Image">最近还好吗?</div>
-          <div class="Icon iconfont icon-touxiang_avatar"></div>
-          <div class="Title">
-            {{ time.hours + ":" + time.minutes + ":" + time.seconds }}
-          </div>
-          <div class="Name">神奇的程序员</div>
-        </div>
-      </li>
-      <li class="message_item">
-        <div class="YoutubeVideo">
-          <div class="Image">最近还好吗?</div>
-          <div class="Icon iconfont icon-touxiang_avatar"></div>
-          <div class="Title">
-            {{ time.hours + ":" + time.minutes + ":" + time.seconds }}
-          </div>
-          <div class="Name">神奇的程序员</div>
+          <div class="Title">{{ formatDateTime(item.create_time) }}</div>
+          <div class="Name">{{ item.user_nickname }}</div>
         </div>
       </li>
     </ul>
@@ -164,38 +76,28 @@
           <div class="schoolbag"></div>
         </div>
       </div>
-      <div class="review_content">
-        <div class="nickname">
-          <span>昵称:&numsp;</span>
-          <input
-            type="text"
-            name="text"
-            class="input"
-            placeholder="请输入您希望展示的名称"
-          />
-        </div>
-        <div class="content">
-          <span>留言:&numsp;</span>
-          <textarea
-            class="textarea"
-            placeholder="请输入您要留言的内容"
-          ></textarea>
-        </div>
-        <div class="submit"><button class="btn">提交留言</button></div>
-      </div>
+      <InputText firstLevelOrSecondLevel="1" parentComponentName="message" />
     </div>
     <div class="review_list_container">
-      <Comment />
+      <Comment
+        title="全部留言"
+        parentComponentName="message"
+        :isTheTopInputBoxDisplayed="false"
+      />
     </div>
   </div>
 </template>
 
 <script>
 import Comment from "../../components/comment.vue";
+import InputText from "../../components/inputText.vue";
+import { GetAllMessages } from "../../api/request";
+import { formatDateTime } from "../../tool/index";
 export default {
   name: "message",
   components: {
     Comment,
+    InputText,
   },
   data() {
     return {
@@ -204,16 +106,53 @@ export default {
         minutes: 0,
         seconds: 0,
       },
+      CommentList: [],
     };
+  },
+  beforeUnmount() {
+    this._observer.disconnect();
+  },
+  beforeDestroy() {
+    this._observer.disconnect();
   },
   mounted() {
     setInterval(this.gettime, 1000);
-    this.Randomarrangement();
+    this._observer = new MutationObserver((mutationList) => {
+      if (mutationList.length == this.CommentList.length) {
+        let avatar = document.querySelectorAll(".YoutubeVideo .Icon");
+        avatar.forEach((item) => {
+          item.style.color = this.getRandomColor();
+        });
+        this.Randomarrangement();
+      }
+    });
+
+    this._observer.observe(this.$refs.msg, { childList: true });
   },
   created() {
     this.gettime();
+    this.getMessageData();
   },
+  computed: {},
+  watch: {},
   methods: {
+    formatDateTime,
+    // 随机颜色
+    getRandomColor() {
+      const letters = "0123456789ABCDEF";
+      let color = "#";
+      for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    },
+    // 获取留言数据
+    async getMessageData() {
+      let commentdata = await GetAllMessages();
+      this.CommentList = commentdata.data.filter(
+        (item) => item.comment_level == 1
+      );
+    },
     gettime() {
       const now = new Date();
       const hours = now.getHours().toString().padStart(2, "0");
@@ -224,67 +163,64 @@ export default {
       this.time.seconds = seconds;
     },
     Randomarrangement() {
-      let zIndexNum = 0;
-      var isDrop = false;
-      let element = this.$refs.msg;
-      let theXCoordinateOfTheMouseRelativeToTheDIV = 0;
-      let yCoordinateOfMouseRelativeToDIV = 0;
-      let msglist = Array.from(element.children);
-      const checkwidth =
-        element.getBoundingClientRect().width -
-        msglist[0].getBoundingClientRect().width;
-      const checkhigth =
-        element.getBoundingClientRect().height -
-        msglist[0].getBoundingClientRect().height;
-      console.log(checkhigth);
-      msglist.forEach((item, index) => {
-        let randomleft = Math.floor(Math.random() * (checkwidth - 5 + 1) + 5);
-        let randomtop = Math.floor(Math.random() * (checkhigth - 5 + 1) + 5);
-        item.style.left = randomleft + "px";
-        item.style.top = randomtop + "px";
-        item.style.zIndex = zIndexNum++;
-        item.setAttribute("x", randomleft);
-        item.setAttribute("y", randomtop);
-        item.addEventListener("mousedown", (event) => {
-          console.log("mousedown");
-          isDrop = true;
-          const curDom = event.target.parentNode.parentNode;
-          var e = e || window.event;
-          theXCoordinateOfTheMouseRelativeToTheDIV = e.offsetX;
-          yCoordinateOfMouseRelativeToDIV = e.offsetY;
-          if (curDom.className.indexOf("message_item") !== -1) {
-            curDom.style.zIndex = zIndexNum++;
-          }
-        });
-        item.addEventListener("mouseup", (e) => {
-          console.log("mouseup");
-          isDrop = false;
-        });
-        item.addEventListener("mouseleave", (e) => {
-          console.log("mouseleave");
-          isDrop = false;
-        });
-        item.addEventListener("mousemove", (e) => {
-          if (isDrop) {
-            console.log("mousemove");
-            let x =
-              e.clientX -
-              element.getBoundingClientRect().left -
-              theXCoordinateOfTheMouseRelativeToTheDIV;
-            let y =
-              e.clientY -
-              element.getBoundingClientRect().top -
-              yCoordinateOfMouseRelativeToDIV;
-            if (x <= 0) x = 0;
-            if (y <= 0) y = 0;
-            if (x >= checkwidth) x = checkwidth;
-            if (y >= checkhigth) y = checkhigth;
-            console.log(x, y);
-            item.style.left = x + "px";
-            item.style.top = y + "px";
-          } else {
-            return;
-          }
+      this.$nextTick(() => {
+        let zIndexNum = 0;
+        var isDrop = false;
+        let element = this.$refs.msg;
+        let msglist = Array.from(element.children);
+        let theXCoordinateOfTheMouseRelativeToTheDIV = 0;
+        let yCoordinateOfMouseRelativeToDIV = 0;
+        const checkwidth =
+          element.getBoundingClientRect().width -
+          msglist[0].getBoundingClientRect().width;
+        const checkhigth =
+          element.getBoundingClientRect().height -
+          msglist[0].getBoundingClientRect().height;
+        msglist.forEach((item, index) => {
+          let randomleft = Math.floor(Math.random() * (checkwidth - 5 + 1) + 5);
+          let randomtop = Math.floor(Math.random() * (checkhigth - 5 + 1) + 5);
+          item.style.left = randomleft + "px";
+          item.style.top = randomtop + "px";
+          item.style.zIndex = zIndexNum++;
+          item.setAttribute("x", randomleft);
+          item.setAttribute("y", randomtop);
+          item.addEventListener("mousedown", (event) => {
+            console.log("mousedown");
+            isDrop = true;
+            const curDom = event.target.parentNode.parentNode;
+            var e = e || window.event;
+            theXCoordinateOfTheMouseRelativeToTheDIV = e.offsetX;
+            yCoordinateOfMouseRelativeToDIV = e.offsetY;
+            if (curDom.className.indexOf("message_item") !== -1) {
+              curDom.style.zIndex = zIndexNum++;
+            }
+          });
+          item.addEventListener("mouseup", (e) => {
+            isDrop = false;
+          });
+          item.addEventListener("mouseleave", (e) => {
+            isDrop = false;
+          });
+          item.addEventListener("mousemove", (e) => {
+            if (isDrop) {
+              let x =
+                e.clientX -
+                element.getBoundingClientRect().left -
+                theXCoordinateOfTheMouseRelativeToTheDIV;
+              let y =
+                e.clientY -
+                element.getBoundingClientRect().top -
+                yCoordinateOfMouseRelativeToDIV;
+              if (x <= 0) x = 0;
+              if (y <= 0) y = 0;
+              if (x >= checkwidth) x = checkwidth;
+              if (y >= checkhigth) y = checkhigth;
+              item.style.left = x + "px";
+              item.style.top = y + "px";
+            } else {
+              return;
+            }
+          });
         });
       });
     },
@@ -313,7 +249,7 @@ export default {
     height: 100%;
     position: relative;
     box-sizing: border-box;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.3);
     border-radius: 10px;
     .message_item {
       position: absolute;
@@ -322,17 +258,15 @@ export default {
         height: 220px;
         background: transparent;
       }
-
       .Image {
         width: 250px;
         height: 154px;
         border-radius: 10px;
-        background-color: rgba(0, 0, 0, 0.4);
-        padding: 10px;
-        overflow-x: auto;
-        overflow-y: auto;
-        box-sizing: border-box;
+        background-color: rgba(0, 0, 0, 0.9);
         font-family: "Times New Roman", Times, serif;
+        font-size: 12px;
+        padding: 20px;
+        box-sizing: border-box;
       }
 
       .Icon {
@@ -342,9 +276,8 @@ export default {
         text-align: center;
         line-height: 40px;
         float: right;
-        background-color: #3a3a3a;
+        background-color: rgba(0, 0, 0, 0.9);
         transform: translate(0px, 10px);
-        color: #0cc;
       }
 
       .Title {
@@ -359,14 +292,14 @@ export default {
       }
 
       .Name {
-        width: auto;
+        width: 100px;
         height: 15px;
         border-radius: 2px;
-        font-size: 12px;
         float: right;
         background-color: rgba(0, 0, 0, 0.9);
         transform: translate(-15px, 20px);
         font-family: "Times New Roman", Times, serif;
+        font-size: 12px;
       }
     }
   }
@@ -727,95 +660,6 @@ export default {
       background-color: #fbfdfa;
       border-radius: 0 30px 0 0;
       border-bottom: 10px solid #b0cfe4;
-    }
-    .review_content {
-      font-size: 15px;
-      font-family: "Times New Roman", Times, serif;
-      color: #0cc;
-      position: relative;
-      flex: 1;
-      //   background-color: rgba(0, 0, 0, 0.5);
-      height: 300px;
-      border-radius: 10px;
-      padding: 20px;
-      box-sizing: border-box;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      .nickname {
-        width: 100%;
-        height: 50px;
-        line-height: 50px;
-        .input {
-          color: #0cc;
-          border: 2px solid #0cc;
-          border-radius: 10px;
-          padding: 10px 25px;
-          background: transparent;
-        }
-        .input:active {
-          box-shadow: 2px 2px 15px #0cc inset;
-        }
-      }
-      .content {
-        width: 100%;
-        height: calc(250px - 40px - 50px - 50px);
-        display: flex;
-
-        .textarea {
-          color: #0cc;
-          border: 2px solid #0cc;
-          border-radius: 10px;
-          padding: 10px 25px;
-          background: transparent;
-          box-sizing: border-box;
-          min-width: 400px;
-          max-width: 600px;
-          height: 100%;
-          max-height: 100%;
-          overflow-x: auto;
-          overflow-y: auto;
-        }
-      }
-      .submit {
-        width: 100%;
-        height: 50px;
-        position: relative;
-        .btn {
-          font-size: 13px;
-          position: absolute;
-          right: 60px;
-          top: 0;
-          padding: 5px 5px;
-          box-sizing: border-box;
-          border: none;
-          outline: none;
-          border-radius: 2px;
-          cursor: pointer;
-          text-transform: uppercase;
-          background-color: rgb(14, 14, 26);
-          color: rgb(234, 234, 234);
-          font-weight: 700;
-          transition: 0.6s;
-          box-shadow: 0px 0px 60px #1f4c65;
-          -webkit-box-reflect: below 10px
-            linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.4));
-        }
-
-        .btn:active {
-          scale: 0.92;
-        }
-
-        .btn:hover {
-          background: rgb(2, 29, 78);
-          background: linear-gradient(
-            270deg,
-            rgba(2, 29, 78, 0.681) 0%,
-            rgba(31, 215, 232, 0.873) 60%
-          );
-          color: rgb(4, 4, 38);
-        }
-      }
     }
   }
 }

@@ -21,13 +21,20 @@
         :placeholder="placeholder"
         v-model="commentText"
       />
-      <button class="btn" @click="submitComments">提交评论</button>
+      <button class="btn" @click="submitComments">
+        {{ parentComponentName == "message" ? "提交留言" : "提交评论" }}
+      </button>
     </div>
   </div>
 </template>
 
 <script>
-import { CreateComment } from "../api/request";
+import {
+  CreateComment,
+  CreateMessage,
+  CreateDynamicComment,
+} from "../api/request";
+import { Notification } from "element-ui";
 export default {
   data() {
     return {
@@ -39,10 +46,24 @@ export default {
           : "善语结善缘，恶语伤人心",
     };
   },
-  props: ["CurrentCommentData", "firstLevelOrSecondLevel", "ArticleID"],
+  props: [
+    "CurrentCommentData",
+    "firstLevelOrSecondLevel",
+    "ArticleID",
+    "parentComponentName",
+    "dynamic_id",
+  ],
   mounted() {},
   methods: {
     async submitComments() {
+      if (!this.nickname && !this.commentText) {
+        Notification({
+          title: "ERROR",
+          message: "您没有输入昵称或评论",
+          type: "error",
+        });
+        return;
+      }
       if (this.firstLevelOrSecondLevel == "2") {
         let reply_comment_id = 0;
         if (this.CurrentCommentData.comment_level == 2) {
@@ -58,25 +79,97 @@ export default {
           comment_level: 2,
           content: this.commentText,
         };
-        let createresult = await CreateComment(requestToCreateACommentObject);
-        this.nickname = "";
-        this.commentText = "";
-        this.$emit("listenAndSubmitButton", this.CurrentCommentData.id);
-        console.log(createresult);
-        return;
-      }
-      let requestToCreateACommentObject = {
-        article_id: this.ArticleID,
-        user_nickname: this.nickname || "",
-        comment_level: 1,
-        content: this.commentText,
-      };
-      let createresult = await CreateComment(requestToCreateACommentObject);
-      this.nickname = "";
-      this.commentText = "";
-      this.$emit("commentCompletedUpdatingData");
+        if (this.parentComponentName == "detail") {
+          let createresult = await CreateComment(requestToCreateACommentObject);
+          if (createresult.data.errcode == 0) {
+            this.nickname = "";
+            this.commentText = "";
+            this.$emit("listenAndSubmitButton", this.CurrentCommentData.id);
 
-      console.log(createresult);
+            return;
+          } else {
+            throw new Error("创建文章评论失败");
+          }
+        } else if (this.parentComponentName == "message") {
+          delete requestToCreateACommentObject.article_id;
+          let createresult = await CreateMessage(requestToCreateACommentObject);
+          if (createresult.data.errcode == 0) {
+            this.nickname = "";
+            this.commentText = "";
+            this.$emit("listenAndSubmitButton", this.CurrentCommentData.id);
+            return;
+          } else {
+            throw new Error("创建留言评论失败");
+          }
+        } else if (this.parentComponentName == "dynamic") {
+          delete requestToCreateACommentObject.article_id;
+          requestToCreateACommentObject.dynamic_id =
+            this.CurrentCommentData.dynamic_id;
+          let createresult = await CreateDynamicComment(
+            requestToCreateACommentObject
+          );
+          if (createresult.data.errcode == 0) {
+            this.nickname = "";
+            this.commentText = "";
+            this.$emit("listenAndSubmitButton", this.CurrentCommentData.id);
+            return;
+          } else {
+            throw new Error("创建留言评论失败");
+          }
+        }
+      } else if (this.firstLevelOrSecondLevel == "1") {
+        let requestToCreateACommentObject = {
+          article_id: this.ArticleID,
+          user_nickname: this.nickname || "",
+          comment_level: 1,
+          content: this.commentText,
+        };
+        if (this.parentComponentName == "detail") {
+          let createresult = await CreateComment(requestToCreateACommentObject);
+          if (createresult.data.errcode == 0) {
+            Notification({
+              title: "成功",
+              message: "提交评论成功",
+              type: "success",
+            });
+            this.nickname = "";
+            this.commentText = "";
+            this.$emit(
+              "monitoringAndSubmittingCommentEventsTriggerDataUpdates"
+            );
+          }
+        } else if (this.parentComponentName == "message") {
+          delete requestToCreateACommentObject.article_id;
+          let createresult = await CreateMessage(requestToCreateACommentObject);
+          if (createresult.data.errcode == 0) {
+            Notification({
+              title: "成功",
+              message: "您的留言已提交给博主审核中...",
+              type: "success",
+            });
+            this.nickname = "";
+            this.commentText = "";
+          }
+        } else if (this.parentComponentName == "dynamic") {
+          delete requestToCreateACommentObject.article_id;
+          requestToCreateACommentObject.dynamic_id = this.dynamic_id;
+          let createresult = await CreateDynamicComment(
+            requestToCreateACommentObject
+          );
+          if (createresult.data.errcode == 0) {
+            Notification({
+              title: "成功",
+              message: "提交评论成功",
+              type: "success",
+            });
+            this.nickname = "";
+            this.commentText = "";
+            this.$emit(
+              "monitoringAndSubmittingCommentEventsTriggerDataUpdates"
+            );
+          }
+        }
+      }
     },
   },
 };
@@ -164,20 +257,20 @@ export default {
   .commentTextframe {
     width: 100%;
     height: auto;
+    max-height: 50px;
     position: relative;
     vertical-align: bottom;
     textarea {
       max-width: calc(100% - 50px);
       min-width: 500px;
-      height: 50px;
-      min-height: 80px;
-      padding: 20px 0;
+      height: auto;
+      min-height: 30px;
+      padding: 10px 0;
       border: none;
       background: transparent;
       border-bottom: 1px solid #6d6c6c;
       color: #a19e9e;
       outline: none;
-      box-sizing: border-box;
       &:focus {
         border-bottom: 1px solid rgb(34, 183, 132);
         animation: shake_541 0.14s 3;
